@@ -2,8 +2,8 @@
 let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
 
-// Todo: create a function to generate a unique task id
-function generateTaskId() {
+// Todo: create a function to generate a unique task id 
+function generateTaskId() { //1
     let generatedRandomId = Math.random();
     console.log("Generated Task ID: " + generatedRandomId);
     return generatedRandomId;
@@ -25,7 +25,6 @@ card.appendChild(cardContent);
 // Append the card to a container in the HTML document
 const cardContainer = document.getElementById('card-container');
 cardContainer.appendChild(card);
-
 // Call the createCard function with title and content
 createCard('Card Title', 'This is the content of the card.');
 
@@ -37,7 +36,48 @@ createCard('Card Title', 'This is the content of the card.');
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() { //4
-    //make cards remder
+    const taskList = document.getElementById('task-list');
+    const tasks = taskList.querySelectorAll('li');
+    
+    tasks.forEach(task => {
+        task.setAttribute('draggable', true);
+    
+        task.addEventListener('dragstart', () => {
+            task.classList.add('dragging');
+        });
+    
+        task.addEventListener('dragend', () => {
+            task.classList.remove('dragging');
+        });
+    });
+    
+    taskList.addEventListener('dragover', e => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(taskList, e.clientY);
+        const draggingElement = taskList.querySelector('.dragging');
+    
+        if (afterElement == null) {
+            taskList.appendChild(draggingElement);
+        } else {
+            taskList.insertBefore(draggingElement, afterElement);
+        }
+    });
+    
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('li:not(.dragging)')];
+    
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+    
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+    //make cards render
         //populate-> which means that we make them show in another place
     // make dragable
         //animation or if not bootstrap?  if not YOUTUBE / GOOGLE
@@ -45,7 +85,7 @@ function renderTaskList() { //4
 }
 
 // Todo: create a function to handle adding a new task
-function handleAddTask(event) {
+function handleAddTask(event) { //2
     let generatedRandomId = generateTaskId();
     localStorage.setItem('taskID', generatedRandomId);
     let storedTaskId = localStorage.getItem('taskID');
@@ -61,6 +101,22 @@ function handleAddTask(event) {
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event){ //5
+    // Function to delete a task from the task list
+function deleteTask(taskId) {
+
+    let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    const taskIndex = taskList.findIndex(task => task.id === taskId);
+
+    if (taskIndex !== -1) {
+        taskList.splice(taskIndex, 1);
+        localStorage.setItem("tasks", JSON.stringify(taskList));
+        renderTaskList();
+    } else {
+        console.log();
+    }
+}
+
 //find the id that matches to the one you want to delete
 //find them in localstorage 
 //remove from local storage
