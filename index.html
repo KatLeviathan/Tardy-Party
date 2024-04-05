@@ -50,11 +50,10 @@
            <label for="exampleFormControlTextarea1" class="form-label">Task Description</label>
            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
           </div>
-        <div class="draggable-card">Card Content</div>
       </div>
       <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-         <button type="button" class="btn btn-primary">Save changes</button>
+         <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+         <button id="handleAddTask" type="button" class="btn btn-primary" class="btn close_link" data-bs-target="#closeModal">Save changes</button>
         </div>
     </div>
   </div>
@@ -100,11 +99,6 @@
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
     integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
-    <script>
-      $(function() {
-          $(".draggable-card").draggable();
-      });
-  </script>
 
   <script src="./assets/js/script.js"></script>
 </body>
