@@ -1,3 +1,8 @@
+import dayjs from 'dayjs';
+const currentDate = dayjs();
+const formattedDate = dayjs().format('MM-DD-YYYY');
+
+
 // Retrieve tasks and nextId from localStorage
 let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
